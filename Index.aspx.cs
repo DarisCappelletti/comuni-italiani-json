@@ -88,7 +88,13 @@ namespace PortFolio.comuni_italiani_json
 
                 //6. Free resources (IExcelDataReader is IDisposable)
                 excelReader.Close();
-                var json = JsonSerializer.Serialize(list);
+                //var json = JsonSerializer.Serialize(list);
+                //var json = new JavaScriptSerializer().Serialize(list);
+
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                serializer.MaxJsonLength = Int32.MaxValue;
+                var json = serializer.Serialize(list);
+
                 BinaryFormatter bf = new BinaryFormatter();
                 MemoryStream ms = new MemoryStream();
                 bf.Serialize(ms, json);
