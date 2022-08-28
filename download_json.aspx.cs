@@ -60,36 +60,8 @@ namespace PortFolio.comuni_italiani_json
                     if (i != 0)
                     {
                         // Imposto l'oggetto
-                        var obj = new ComuneValore
-                        {
-                            CodRegione = excelReader.GetValue(0),
-                            CodUnitaTerritoriale = excelReader.GetValue(1),
-                            CodProvinciaStorico = excelReader.GetValue(2),
-                            CodProgressivoComune = excelReader.GetValue(3),
-                            CodComuneAlfanumerico = excelReader.GetValue(4),
-                            DenominazioneUniversale = excelReader.GetString(5),
-                            DenominazioneItaliana = excelReader.GetString(6),
-                            DenominazioneAltraLingua = excelReader.GetValue(7),
-                            CodiceRipartizioneGeografica = excelReader.GetValue(8),
-                            RipartizioneGeografica = excelReader.GetValue(9),
-                            DenominazioneRegione = excelReader.GetValue(10),
-                            DenominazioneUnitaTerritorialeSovracomunale = excelReader.GetValue(11),
-                            TipologiaUnitaTerritorialeSovracomunale = excelReader.GetValue(12),
-                            Capoluogo_metropolitana_liberoConsorzio = excelReader.GetValue(13),
-                            SiglaAutomobilistica = excelReader.GetValue(14),
-                            CodComuneNumerico = excelReader.GetValue(15),
-                            CodComuneNumerico_110Provincie_2010_2016 = excelReader.GetValue(16),
-                            CodComuneNumerico_107Provincie_2006_2009 = excelReader.GetValue(17),
-                            CodComuneNumerico_103Provincie_1995_2005 = excelReader.GetValue(18),
-                            CodCatastale = excelReader.GetValue(19),
-                            CodNuts1_2010 = excelReader.GetValue(20),
-                            CodNuts2_2010 = excelReader.GetValue(21),
-                            CodNuts3_2010 = excelReader.GetValue(22),
-                            CodNuts1_2021 = excelReader.GetValue(23),
-                            CodNuts2_2021 = excelReader.GetValue(24),
-                            CodNuts3_2021 = excelReader.GetValue(25)
-                        };
-
+                        var obj = creoOggettoComune(excelReader);
+                        
                         // Scarico i dettagli da indicePA
                         var dettagliEnte = richiestaDettagliIndicePa == "true" ? RicercaEnte(obj.DenominazioneItaliana) : null;
 
@@ -178,7 +150,7 @@ namespace PortFolio.comuni_italiani_json
             return dettagliEnte;
         }
 
-        private string chiamataMultiPart(string api, NameValueCollection outgoingQueryString)
+        public static string chiamataMultiPart(string api, NameValueCollection outgoingQueryString)
         {
             string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
             byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
@@ -226,34 +198,69 @@ namespace PortFolio.comuni_italiani_json
             }
         }
 
+        public static ComuneValore creoOggettoComune(IExcelDataReader excelReader)
+        {
+            var obj = new ComuneValore
+            {
+                CodRegione = excelReader.GetString(0),
+                CodUnitaTerritoriale = excelReader.GetString(1),
+                CodProvinciaStorico = excelReader.GetString(2),
+                CodProgressivoComune = excelReader.GetString(3),
+                CodComuneAlfanumerico = excelReader.GetString(4),
+                DenominazioneUniversale = excelReader.GetString(5),
+                DenominazioneItaliana = excelReader.GetString(6),
+                DenominazioneAltraLingua = excelReader.GetString(7),
+                CodiceRipartizioneGeografica = excelReader.GetDouble(8),
+                RipartizioneGeografica = excelReader.GetString(9),
+                DenominazioneRegione = excelReader.GetString(10),
+                DenominazioneUnitaTerritorialeSovracomunale = excelReader.GetString(11),
+                TipologiaUnitaTerritorialeSovracomunale = excelReader.GetDouble(12),
+                Capoluogo_metropolitana_liberoConsorzio = excelReader.GetDouble(13),
+                SiglaAutomobilistica = excelReader.GetString(14),
+                CodComuneNumerico = excelReader.GetDouble(15),
+                CodComuneNumerico_110Provincie_2010_2016 = excelReader.GetDouble(16),
+                CodComuneNumerico_107Provincie_2006_2009 = excelReader.GetDouble(17),
+                CodComuneNumerico_103Provincie_1995_2005 = excelReader.GetDouble(18),
+                CodCatastale = excelReader.GetString(19),
+                CodNuts1_2010 = excelReader.GetString(20),
+                CodNuts2_2010 = excelReader.GetString(21),
+                CodNuts3_2010 = excelReader.GetString(22),
+                CodNuts1_2021 = excelReader.GetString(23),
+                CodNuts2_2021 = excelReader.GetString(24),
+                CodNuts3_2021 = excelReader.GetString(25)
+            };
+
+            return obj;
+        }
+
         public class ComuneValore
         {
-            public dynamic CodRegione { get; set; }
-            public dynamic CodUnitaTerritoriale { get; set; }
-            public dynamic CodProvinciaStorico { get; set; }
-            public dynamic CodProgressivoComune { get; set; }
-            public dynamic CodComuneAlfanumerico { get; set; }
-            public dynamic DenominazioneUniversale { get; set; }
-            public dynamic DenominazioneItaliana { get; set; }
-            public dynamic DenominazioneAltraLingua { get; set; }
-            public dynamic CodiceRipartizioneGeografica { get; set; }
-            public dynamic RipartizioneGeografica { get; set; }
-            public dynamic DenominazioneRegione { get; set; }
-            public dynamic DenominazioneUnitaTerritorialeSovracomunale { get; set; }
-            public dynamic TipologiaUnitaTerritorialeSovracomunale { get; set; }
-            public dynamic Capoluogo_metropolitana_liberoConsorzio { get; set; }
-            public dynamic SiglaAutomobilistica { get; set; }
-            public dynamic CodComuneNumerico { get; set; }
-            public dynamic CodComuneNumerico_110Provincie_2010_2016 { get; set; }
-            public dynamic CodComuneNumerico_107Provincie_2006_2009 { get; set; }
-            public dynamic CodComuneNumerico_103Provincie_1995_2005 { get; set; }
-            public dynamic CodCatastale { get; set; }
-            public dynamic CodNuts1_2010 { get; set; }
-            public dynamic CodNuts2_2010 { get; set; }
-            public dynamic CodNuts3_2010 { get; set; }
-            public dynamic CodNuts1_2021 { get; set; }
-            public dynamic CodNuts2_2021 { get; set; }
-            public dynamic CodNuts3_2021 { get; set; }
+            public string CodRegione { get; set; }
+            public string CodUnitaTerritoriale { get; set; }
+            public string CodProvinciaStorico { get; set; }
+            public string CodProgressivoComune { get; set; }
+            public string CodComuneAlfanumerico { get; set; }
+            public string DenominazioneUniversale { get; set; }
+            public string DenominazioneItaliana { get; set; }
+            public string DenominazioneAltraLingua { get; set; }
+            public double CodiceRipartizioneGeografica { get; set; }
+            public string RipartizioneGeografica { get; set; }
+            public string DenominazioneRegione { get; set; }
+            public string DenominazioneUnitaTerritorialeSovracomunale { get; set; }
+            public double TipologiaUnitaTerritorialeSovracomunale { get; set; }
+            public double Capoluogo_metropolitana_liberoConsorzio { get; set; }
+            public string SiglaAutomobilistica { get; set; }
+            public double CodComuneNumerico { get; set; }
+            public double CodComuneNumerico_110Provincie_2010_2016 { get; set; }
+            public double CodComuneNumerico_107Provincie_2006_2009 { get; set; }
+            public double CodComuneNumerico_103Provincie_1995_2005 { get; set; }
+            public string CodCatastale { get; set; }
+            public string CodNuts1_2010 { get; set; }
+            public string CodNuts2_2010 { get; set; }
+            public string CodNuts3_2010 { get; set; }
+            public string CodNuts1_2021 { get; set; }
+            public string CodNuts2_2021 { get; set; }
+            public string CodNuts3_2021 { get; set; }
             public RootDettagliEnte DettagliEnte { get; set; }
         }
 
