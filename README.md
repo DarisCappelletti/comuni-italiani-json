@@ -31,7 +31,7 @@ Dati presi da: Istat, WikiData
 
 Parametri:
 - <strong>Comune</strong>: Indicando il nome del comune verranno estrapolate le coordinate di quel comune<br>
-Non impostando il comune verranno estrapolate le coordinate di tutti i comuni italiani (in questo caso la chiamata impiegherà paracchio)
+Non impostando il comune verranno estrapolate le coordinate di tutti i comuni italiani (in questo caso la chiamata impiegherà molto tempo)
 
 Esempio di chiamata: 
 [`https://www.dariscappelletti.com/api/ComuniItalianiCoordinate?comune=ripe%20san%20ginesio`](https://www.dariscappelletti.com/api/ComuniItalianiCoordinate?comune=ripe%20san%20ginesio)
