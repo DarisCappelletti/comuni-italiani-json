@@ -14,6 +14,7 @@ using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using PortFolio.comuni_italiani_json.Helpers;
 
 namespace PortFolio.comuni_italiani_json
 {
@@ -63,7 +64,10 @@ namespace PortFolio.comuni_italiani_json
                         var obj = creoOggettoComune(excelReader);
                         
                         // Scarico i dettagli da indicePA
-                        var dettagliEnte = richiestaDettagliIndicePa == "true" ? RicercaEnte(obj.DenominazioneItaliana) : null;
+                        var dettagliEnte = 
+                            richiestaDettagliIndicePa == "true" 
+                            ? IstatHelper.RicercaDettagliEnte(obj.DenominazioneItaliana) 
+                            : null;
 
                         obj.DettagliEnte = dettagliEnte;
 
@@ -95,59 +99,6 @@ namespace PortFolio.comuni_italiani_json
                 response.Write(json);
                 response.End();
             }
-        }
-
-        private RootDettagliEnte RicercaEnte(string nomeEnte)
-        {
-            // Chiamata per ricercare l'ente
-            string api = "https://www.indicepa.gov.it:443/public-ws/WS16_DES_AMM.php";
-
-            NameValueCollection outgoingQueryString = HttpUtility.ParseQueryString(String.Empty);
-            outgoingQueryString.Add("AUTH_ID", ConfigurationManager.AppSettings["indicePa.authID"]);
-            outgoingQueryString.Add("DESCR", nomeEnte);
-
-            var risultato = chiamataMultiPart(api, outgoingQueryString);
-
-            var ente = risultato == null ? null : new JavaScriptSerializer().Deserialize<RootEnte>(risultato);
-
-            // Se trovo un risultato lo associo ai dati
-            if (ente != null && 
-                ente.result.num_items == 1 && 
-                ente.data.Any(x => x.des_amm.ToLower().Contains("comune")))
-            {
-                // Esiste soltanto un ente ed è il comune
-                var dettagliEnte = RicercaDettagliEnte(ente.data.SingleOrDefault().cod_amm);
-
-                return dettagliEnte;
-            }
-            else if(ente != null && ente.result.num_items > 1)
-            {
-                // Esistono più enti con lo stesso nome, prendo soltanto il comune
-                var comune = ente.data.FirstOrDefault(x => x.des_amm.ToLower().Contains("comune")).cod_amm;
-                var dettagliEnte = RicercaDettagliEnte(comune);
-
-                return dettagliEnte;
-            }
-            else
-            {
-                // L'ente non è stato trovato
-                return null;
-            }
-        }
-
-        private RootDettagliEnte RicercaDettagliEnte(string cod_amm)
-        {
-            string api = "https://www.indicepa.gov.it:443/public-ws/WS05_AMM.php";
-
-            NameValueCollection outgoingQueryString = HttpUtility.ParseQueryString(String.Empty);
-            outgoingQueryString.Add("AUTH_ID", ConfigurationManager.AppSettings["indicePa.authID"]);
-            outgoingQueryString.Add("COD_AMM", cod_amm);
-
-            var risultato = chiamataMultiPart(api, outgoingQueryString);
-
-            var dettagliEnte = new JavaScriptSerializer().Deserialize<RootDettagliEnte>(risultato);
-
-            return dettagliEnte;
         }
 
         public static string chiamataMultiPart(string api, NameValueCollection outgoingQueryString)
