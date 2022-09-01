@@ -90,7 +90,11 @@ namespace PortFolio.comuni_italiani_json.api
 
             var data = new JavaScriptSerializer().Deserialize<WikiDataRoot>(streamJson);
 
-            var ente = data.search.FirstOrDefault(x => x.description != null && x.description.ToLower() == "comune italiano");
+            // Ricerco l'ente che corrisponde al nome passato oppure lo contiene
+            var ente = data.search.FirstOrDefault(x => 
+                x.description != null && 
+                x.label == nomeEnte &&
+                x.description.ToLower() == "comune italiano");
 
             if(ente == null)
             {
@@ -119,21 +123,26 @@ namespace PortFolio.comuni_italiani_json.api
             var data = new JavaScriptSerializer().Deserialize<Root>(streamJson);
             var dynamicObj = JsonConvert.DeserializeObject<Root>(streamJson);
 
+            // A causa della deserializzazione con javascriptserializer è necessario
+            // farlo su un oggetto anonimo (non permette di impostare un nome fisso ad una proprietà della classe
             var stuff = new JavaScriptSerializer().Deserialize<object>(streamJson);
             dynamic hitchhiker = JObject.Parse(streamJson);
             var entities = hitchhiker.entities;
-            var comuneWiki = entities[id];
-            var infoWiki = comuneWiki.claims.P625[0].mainsnak.datavalue.value;
-            var latitudine = infoWiki.latitude.ToString();
-            var longitudine = infoWiki.longitude.ToString();
 
-            //var p625 = data.entities.elemento.claims.P625.FirstOrDefault();
-            //var valori = p625.mainsnak.datavalue.value;
-            //var latitudine = valori["latitude"];
-            //var longitudine = valori["longitude"];
+            // Estrapolo l'elemento con l'id
+            var comuneWiki = entities[id];
+
+            // Prendo le coordinate - Codice P625 su WikiData
+            var coord = comuneWiki.claims.P625[0].mainsnak.datavalue.value;
+            var latitudine = coord.latitude.ToString();
+            var longitudine = coord.longitude.ToString();
+
+            // Prendo il CAP - Codice P281 su WikiData
+            var cap = comuneWiki.claims.P281[0].mainsnak.datavalue.value;
 
             return new Coordinate()
             {
+                CAP = cap,
                 latitude = latitudine,
                 longitude = longitudine
             };

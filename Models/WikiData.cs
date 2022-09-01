@@ -169,6 +169,7 @@ namespace PortFolio.comuni_italiani_json.Models
         public class Coordinate
         {
             public string NomeComune { get; set; }
+            public string CAP { get; set; }
             public string CodAmm { get; set; }
             public string latitude { get; set; }
             public string longitude { get; set; }
