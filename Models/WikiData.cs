@@ -166,7 +166,7 @@ namespace PortFolio.comuni_italiani_json.Models
 
 
 
-        public class Coordinate
+        public class DettagliWikiData
         {
             public string NomeComune { get; set; }
             public string CAP { get; set; }

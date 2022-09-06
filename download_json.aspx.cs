@@ -15,6 +15,7 @@ using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using PortFolio.comuni_italiani_json.Helpers;
+using static PortFolio.comuni_italiani_json.Models.WikiData;
 
 namespace PortFolio.comuni_italiani_json
 {
@@ -31,7 +32,7 @@ namespace PortFolio.comuni_italiani_json
             string richiestaDettagliIndicePa = Request.QueryString["dettagliIndicePa"];
 
             // Inizializzo la lista
-            var list = new List<ComuneValore>();
+            var list = new List<DettagliIstat>();
 
             // Imposto lo stream
             Stream streamXls = null;
@@ -64,12 +65,12 @@ namespace PortFolio.comuni_italiani_json
                         var obj = creoOggettoComune(excelReader);
                         
                         // Scarico i dettagli da indicePA
-                        var dettagliEnte = 
-                            richiestaDettagliIndicePa == "true" 
-                            ? IstatHelper.RicercaDettagliEnte(obj.DenominazioneItaliana) 
-                            : null;
+                        //var dettagliEnte = 
+                        //    richiestaDettagliIndicePa == "true" 
+                        //    ? IstatHelper.RicercaDettagliEnte(obj.DenominazioneItaliana) 
+                        //    : null;
 
-                        obj.DettagliEnte = dettagliEnte;
+                        //obj.DettagliIndicePA = dettagliEnte;
 
                         list.Add(obj);
                     }
@@ -149,9 +150,9 @@ namespace PortFolio.comuni_italiani_json
             }
         }
 
-        public static ComuneValore creoOggettoComune(IExcelDataReader excelReader)
+        public static DettagliIstat creoOggettoComune(IExcelDataReader excelReader)
         {
-            var obj = new ComuneValore
+            var obj = new DettagliIstat
             {
                 CodRegione = excelReader.GetString(0),
                 CodUnitaTerritoriale = excelReader.GetString(1),
@@ -184,7 +185,7 @@ namespace PortFolio.comuni_italiani_json
             return obj;
         }
 
-        public class ComuneValore
+        public class DettagliIstat
         {
             public string CodRegione { get; set; }
             public string CodUnitaTerritoriale { get; set; }
@@ -212,7 +213,6 @@ namespace PortFolio.comuni_italiani_json
             public string CodNuts1_2021 { get; set; }
             public string CodNuts2_2021 { get; set; }
             public string CodNuts3_2021 { get; set; }
-            public RootDettagliEnte DettagliEnte { get; set; }
         }
 
 
@@ -239,7 +239,7 @@ namespace PortFolio.comuni_italiani_json
 
         // Nuova POST Dettagli Ente
 
-        public class DataDettagliEnte
+        public class DettagliIndicePA
         {
             public string cod_amm { get; set; }
             public string acronimo { get; set; }
@@ -265,18 +265,17 @@ namespace PortFolio.comuni_italiani_json
             public string cf { get; set; }
         }
 
-        public class ResultDettagliEnte
+        public class ResultIndicePA
         {
             public int cod_err { get; set; }
             public string desc_err { get; set; }
             public int num_items { get; set; }
         }
 
-        public class RootDettagliEnte
+        public class RootIndicePA
         {
-            public ResultDettagliEnte result { get; set; }
-            public DataDettagliEnte data { get; set; }
+            public ResultIndicePA result { get; set; }
+            public DettagliIndicePA data { get; set; }
         }
-
     }
 }

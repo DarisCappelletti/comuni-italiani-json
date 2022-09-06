@@ -46,7 +46,7 @@ namespace PortFolio.comuni_italiani_json.Helpers
             }
         }
 
-        public static RootDettagliEnte RicercaDettagliEnte(string nomeEnte)
+        public static DettagliIndicePA RicercaDettagliEnte(string nomeEnte)
         {
             var cod_amm = RicercaEnte(nomeEnte);
 
@@ -60,7 +60,7 @@ namespace PortFolio.comuni_italiani_json.Helpers
 
                 var risultato = chiamataMultiPart(api, outgoingQueryString);
 
-                var dettagliEnte = new JavaScriptSerializer().Deserialize<RootDettagliEnte>(risultato);
+                var dettagliEnte = new JavaScriptSerializer().Deserialize<DettagliIndicePA>(risultato);
 
                 return dettagliEnte;
             }

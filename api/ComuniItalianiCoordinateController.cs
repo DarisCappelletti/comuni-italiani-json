@@ -15,15 +15,15 @@ namespace PortFolio.comuni_italiani_json.api
     public class ComuniItalianiCoordinateController : ApiController
     {
         // GET api/<controller>
-        public List<Coordinate> Get(string comune = "")
+        public List<DettagliWikiData> Get(string comune = "")
         {
             return RicercaComuniIstat(comune);
         }
 
-        private List<Coordinate> RicercaComuniIstat(string comune)
+        private List<DettagliWikiData> RicercaComuniIstat(string comune)
         {
             // Inizializzo la lista
-            var list = new List<Coordinate>();
+            var list = new List<DettagliWikiData>();
 
             // Imposto lo stream
             Stream streamXls = null;
@@ -73,7 +73,7 @@ namespace PortFolio.comuni_italiani_json.api
             }
         }
 
-        private Coordinate RicercaEnteWikiData(string nomeEnte)
+        public DettagliWikiData RicercaEnteWikiData(string nomeEnte)
         {
             // Chiamata per ricercare l'ente
             string api = $"https://www.wikidata.org/w/api.php?action=wbsearchentities&search={nomeEnte}&format=json&errorformat=plaintext&language=it&uselang=it&type=item";
@@ -106,7 +106,7 @@ namespace PortFolio.comuni_italiani_json.api
             }
         }
 
-        private Coordinate RicercaCoordinateEnteWikiData(string id)
+        private DettagliWikiData RicercaCoordinateEnteWikiData(string id)
         {
             string api = $"https://www.wikidata.org/w/api.php?action=wbgetentities&ids={id}&format=json&languages=it&props=claims";
 
@@ -140,7 +140,7 @@ namespace PortFolio.comuni_italiani_json.api
             // Prendo il CAP - Codice P281 su WikiData
             var cap = comuneWiki.claims.P281[0].mainsnak.datavalue.value;
 
-            return new Coordinate()
+            return new DettagliWikiData()
             {
                 CAP = cap,
                 latitude = latitudine,
