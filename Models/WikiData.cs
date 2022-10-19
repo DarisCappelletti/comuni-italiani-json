@@ -174,7 +174,10 @@ namespace PortFolio.comuni_italiani_json.Models
             public string latitude { get; set; }
             public string longitude { get; set; }
         }
+
+        public class RootWikiData
+        {
+            public DettagliWikiData Dettagli { get; set; }
+        }
     }
-
-
 }

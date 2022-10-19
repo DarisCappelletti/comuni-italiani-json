@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
+using System.Web;
 using System.Web.Http;
 using System.Web.Script.Serialization;
 using static PortFolio.comuni_italiani_json.Models.WikiData;
@@ -18,6 +20,21 @@ namespace PortFolio.comuni_italiani_json.api
         public List<DettagliWikiData> Get(string comune = "")
         {
             return RicercaComuniIstat(comune);
+        }
+
+        public List<DettagliWikiData> Get(bool dataFromJson)
+        {
+            // Carico le coordinate dal file json
+            string fullPath = new DirectoryInfo(
+                string.Format("{0}\\comuni-italiani-json-api\\CoordinateComuniItaliani_2022-08-31.json", 
+                HttpContext.Current.Server.MapPath(@"\"))).ToString();
+
+            using (StreamReader sr = new StreamReader(fullPath))
+            {
+                var treatments = JsonConvert.DeserializeObject<List<DettagliWikiData>>(sr.ReadToEnd());
+
+                return treatments;
+            }
         }
 
         private List<DettagliWikiData> RicercaComuniIstat(string comune)

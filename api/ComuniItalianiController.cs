@@ -113,7 +113,10 @@ namespace PortFolio.comuni_italiani_json.api
         private DettagliIndicePA RicercaEnteIndicePA(string nomeEnte)
         {
             // If ad hoc per il comune di "Front Canavese"
-            if (nomeEnte == "Front") { nomeEnte = "Front Canavese"; }
+            if (nomeEnte.ToLower() == "front") { nomeEnte = "front canavese"; }
+            if (nomeEnte.ToLower() == "leini") { nomeEnte = "leini'"; }
+            if (nomeEnte.ToLower() == "cascinette d'ivrea") { nomeEnte = "cascinette di ivrea"; }
+            if (nomeEnte.ToLower() == "cellio con breia") { nomeEnte = "cellioconbreia"; }
 
             // Sostituisco i caratteri speciali per la chiamata GET
             var nomeEntePerChiamataGET = ConvertNomeComuneChiamataIndicePA(nomeEnte);
