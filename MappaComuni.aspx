@@ -24,6 +24,7 @@
     <div id="map"></div>
 
 <script>
+    var siteUrl = <asp:Literal ID="litSiteUrl" runat="server" />
     var map
     $(document).ready(function () {
         // Inizializzo la mappa
@@ -124,8 +125,7 @@
 
         // imposto i parametri per la chiamata
         filtroTesto = filtroTesto == undefined ? "" : filtroTesto
-        await fetch(
-            'http://localhost:51405/api/ComuniItalianiCoordinate?dataFromJson=true'
+        await fetch(siteUrl + 'api/ComuniItalianiCoordinate?dataFromJson=true'
             , {
                 method: 'GET',
                 headers: {
@@ -157,7 +157,7 @@
 
         // Imposto lo stemma del comune
         var popup_header = '<div class="row"><div class="col-md-3">';
-        popup_header += '<img class="stemma" src="http://localhost:51405/comuni-italiani-json-api/Assets/Images/Stemmi/' + nome_comune;
+        popup_header += '<img class="stemma" src="' + siteUrl +'/comuni-italiani-json-api/Assets/Images/Stemmi/' + nome_comune;
         popup_header += '-Stemma.png" alt="stemma ' + nome_comune + '" style="width: 64px;"></div>';
         popup_header += '<div class="col-md-9"><h4>' + nome_comune + '</h4></div></div><hr>';
 
