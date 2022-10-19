@@ -2,24 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Cryptography;
 using System.Text;
-using System.Text.Json;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.UI;
-using System.Web.UI.WebControls;
-using PortFolio.comuni_italiani_json.Helpers;
-using static PortFolio.comuni_italiani_json.Models.WikiData;
 
 namespace PortFolio.comuni_italiani_json
 {
-    public partial class download_json : System.Web.UI.Page
+    public partial class download_json : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -40,7 +33,7 @@ namespace PortFolio.comuni_italiani_json
             using (var wc = new WebClient())
             {
                 // Estrapolo i dati dall'url
-                streamXls = wc.OpenRead("https://www.istat.it/storage/codici-unita-amministrative/Elenco-comuni-italiani.xls");
+                streamXls = wc.OpenRead("https://www.istat.it/storage/codici-unita-amministrative/Elenco-comuni-italiani.xlsx");
             }
 
             using (var mss = new MemoryStream())
@@ -49,10 +42,10 @@ namespace PortFolio.comuni_italiani_json
                 mss.Position = 0;
 
                 //1. Reading from a binary Excel file ('97-2003 format; *.xls)
-                IExcelDataReader excelReader = ExcelReaderFactory.CreateReader(mss);
+                //IExcelDataReader excelReader = ExcelReaderFactory.CreateReader(mss);
 
                 //2. Reading from a OpenXml Excel file (2007 format; *.xlsx)
-                //IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+                IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(mss);
 
                 var i = 0;
 

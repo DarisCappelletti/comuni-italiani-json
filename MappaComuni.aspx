@@ -19,7 +19,13 @@
 </asp:Content>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server" class="container-fluid">
-
+    <h4>Mappa dei comuni italiani</h4>
+    <p>Ho implementato questa mappa utilizzanto la libreria leaflet.js in modo da poter consultare tutti i comuni italiani.<br />
+       I punti della mappa vengono generati tramite un file json precedentemente scaricato tramite un mio altro progetto ovvero 
+        <a href="https://github.com/DarisCappelletti/comuni-italiani-json-api">"Comuni italiani json"</a>.<br />
+        Cliccando su un punto verranno mostrare le informazioni collegate a quel determinato comune.
+        Gli stemmi sono stati scaricati utilizzando il mio progetto <a href="https://github.com/DarisCappelletti/Stemmi-comuni-italiani">"Stemmi comuni italiani"</a>.
+    </p>
 
     <div id="map"></div>
 
